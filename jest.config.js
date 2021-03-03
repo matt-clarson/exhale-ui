@@ -7,6 +7,11 @@ module.exports = {
         },
     },
     transform: {
+        "^.+\\.(js|ts)$": "ts-jest",
         ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
     },
+    transformIgnorePatterns: [
+        // allow lit-html transformation
+        "node_modules/(?!(lit-html|lit-element))",
+    ],
 };

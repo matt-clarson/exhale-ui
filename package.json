@@ -7,7 +7,6 @@
     "compile": "snowpack build",
     "lint": "eslint ./src/",
     "test": "jest",
-    "test:watch": "jest --watch",
     "build": "npm-run-all clean lint test compile",
     "start": "snowpack dev --open none"
   },
@@ -19,6 +18,7 @@
     "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-postcss": "^1.1.0",
     "@snowpack/plugin-typescript": "^1.2.1",
+    "@testing-library/dom": "^7.29.6",
     "@types/jest": "^26.0.20",
     "@types/snowpack-env": "^2.3.3",
     "@typescript-eslint/eslint-plugin": "^4.9.0",

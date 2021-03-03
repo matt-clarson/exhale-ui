@@ -6,45 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/dist/main.css" />
 </head>
 
 <body class="p-4">
-    <ex-dropdown id="rlcs-team-picker">
-        <ex-dropdownbutton slot="control"></ex-dropdownbutton>
-        <ex-dropdownbox>
-            <ex-dropdown-option value="BDS"></ex-dropdown-option>
-            <ex-dropdown-option value="Dignitas"></ex-dropdown-option>
-            <ex-dropdown-option value="Oxygen"></ex-dropdown-option>
-            <ex-dropdown-option value="NRG"></ex-dropdown-option>
-            <ex-dropdown-option value="SSG"></ex-dropdown-option>
-            <ex-dropdown-option value="Other"></ex-dropdown-option>
-        </ex-dropdownbox>
-    </ex-dropdown>
-    <ex-dropdown id="rlcs-team-picker2" reflectcontrol>
-        <ex-dropdown-textbox slot="control" label="Pick your team:"></ex-dropdown-textbox>
-        <ex-dropdownbox>
-            <ex-dropdown-option value="BDS"></ex-dropdown-option>
-            <ex-dropdown-option value="Dignitas"></ex-dropdown-option>
-            <ex-dropdown-option value="Oxygen"></ex-dropdown-option>
-            <ex-dropdown-option value="NRG"></ex-dropdown-option>
-            <ex-dropdown-option value="SSG"></ex-dropdown-option>
-            <ex-dropdown-option value="Other"></ex-dropdown-option>
-        </ex-dropdownbox>
-    </ex-dropdown>
-    <!-- <ex-dropdown id="rlcs-team-picker2">
-        <input slot="control" id="rlcs-team-picker--control" />
-        <ex-dropdownbox id="rlcs-team-picker--dropdownbox">
-        </ex-dropdownbox>
-    </ex-dropdown> -->
+    <label id="rlcs-picker__label">Pick Your Team</label>
+    <ex-listbox aria-labelledby="rlcs-picker__label">
+        <ex-option value="BDS"></ex-option>
+        <ex-option value="Dignitas"></ex-option>
+        <ex-option value="NRG"></ex-option>
+        <ex-option value="Oxygen"></ex-option>
+        <ex-option value="SSG"></ex-option>
+    </ex-listbox>
     <script type="module" src="/dist/components/exhale.js"></script>
     <script>
         document
             .getElementById("rlcs-team-picker")
             .addEventListener("change", event => console.log("1 Picked:", event.currentTarget.value));
-        document
-            .getElementById("rlcs-team-picker2")
-            .addEventListener("change", event => console.log("2 Picked:", event.currentTarget.value));
 
         // const data = ["BDS", "Dignitas", "Oxygen", "NRG", "SSG"];
 
