@@ -4,6 +4,7 @@ import { DropdownChangeEvent, DropdownRegisterEvent } from "./events";
 @customElement("ex-dropdownbutton")
 export class DropdownButton extends LitElement {
     @property({ attribute: false }) private optionName = "Click Me";
+    @query("button") private button?: HTMLButtonElement;
     private registered = false;
 
     constructor() {
@@ -20,16 +21,6 @@ export class DropdownButton extends LitElement {
         );
     }
 
-    connectedCallback(): void {
-        super.connectedCallback();
-        if (!this.isConnected) return;
-        if (!this.hasAttribute("id")) {
-            this.setAttribute("id", `${Math.random().toString(16).slice(2)}-dropdown-control`);
-        }
-    }
-
-    @query("button") button?: HTMLButtonElement;
-
     private handleRegister(event: DropdownRegisterEvent): void {
         if (this.registered) return;
         this.button?.addEventListener("click", () => {
@@ -41,6 +32,14 @@ export class DropdownButton extends LitElement {
 
     private handleDropdownChange(event: DropdownChangeEvent): void {
         this.optionName = event.detail.value;
+    }
+
+    connectedCallback(): void {
+        super.connectedCallback();
+        if (!this.isConnected) return;
+        if (!this.hasAttribute("id")) {
+            this.setAttribute("id", `${Math.random().toString(16).slice(2)}-dropdown-control`);
+        }
     }
 
     render(): TemplateResult {

@@ -13,15 +13,6 @@ export class DropdownOption extends LitElement {
     @property() name?: string;
     @property() value?: string;
 
-    connectedCallback(): void {
-        super.connectedCallback();
-        if (!this.isConnected) return;
-        this.setAttribute("role", "option");
-        if (!this.hasAttribute("id")) {
-            this.setAttribute("id", `${Math.random().toString(16).slice(2)}-option-${this.value}`);
-        }
-    }
-
     static get styles(): CSSResult {
         return css`
             :host {
@@ -59,6 +50,15 @@ export class DropdownOption extends LitElement {
                 background-color: rgba(0, 0, 0, 0.4);
             }
         `;
+    }
+
+    connectedCallback(): void {
+        super.connectedCallback();
+        if (!this.isConnected) return;
+        this.setAttribute("role", "option");
+        if (!this.hasAttribute("id")) {
+            this.setAttribute("id", `${Math.random().toString(16).slice(2)}-option-${this.value}`);
+        }
     }
 
     render(): TemplateResult {
