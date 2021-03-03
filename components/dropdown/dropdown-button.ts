@@ -3,7 +3,8 @@ import { DropdownChangeEvent, DropdownRegisterEvent } from "./events";
 
 @customElement("ex-dropdownbutton")
 export class DropdownButton extends LitElement {
-    @property({ attribute: false }) private optionName = "Click Me";
+    @property() public placeholder = "-- PICK FROM LIST --";
+    @property({ attribute: false }) private value?: string;
     @query("button") private button?: HTMLButtonElement;
     private registered = false;
 
@@ -31,7 +32,7 @@ export class DropdownButton extends LitElement {
     }
 
     private handleDropdownChange(event: DropdownChangeEvent): void {
-        this.optionName = event.detail.value;
+        this.value = event.detail.value;
     }
 
     connectedCallback(): void {
@@ -43,6 +44,6 @@ export class DropdownButton extends LitElement {
     }
 
     render(): TemplateResult {
-        return html`<button part="button">${this.optionName}</button> `;
+        return html`<button part="button">${this.value ?? this.placeholder}</button>`;
     }
 }

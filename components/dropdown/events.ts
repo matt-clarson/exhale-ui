@@ -1,13 +1,15 @@
 import { DropdownBox } from "./dropdown-box";
 
+type Option = {
+    value?: string;
+};
+
 export interface DropdownChangeEvent extends Event {
-    detail: {
-        value: string;
-    };
+    detail: Option;
 }
 
-export function dropdownChangeEvent(value: string): DropdownChangeEvent {
-    return new CustomEvent("ex:dropdownchange", { detail: { value } });
+export function dropdownChangeEvent(detail: Option): DropdownChangeEvent {
+    return new CustomEvent("ex:dropdownchange", { detail });
 }
 
 export interface DropdownRegisterEvent extends Event {

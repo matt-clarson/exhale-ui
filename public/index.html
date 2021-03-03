@@ -10,63 +10,76 @@
 </head>
 
 <body class="p-4">
-    <!-- <ex-dropdown id="rlcs-team-picker">
+    <ex-dropdown id="rlcs-team-picker">
         <ex-dropdownbutton slot="control"></ex-dropdownbutton>
         <ex-dropdownbox>
-            <ex-dropdown-option name="-- PICK YOUR TEAM --" value=""></ex-dropdown-option>
-            <ex-dropdown-option name="BDS" value="0"></ex-dropdown-option>
-            <ex-dropdown-option name="Dignitas" value="1"></ex-dropdown-option>
-            <ex-dropdown-option name="Oxygen" value="2"></ex-dropdown-option>
-            <ex-dropdown-option name="NRG" value="3"></ex-dropdown-option>
-            <ex-dropdown-option name="SSG" value="4"></ex-dropdown-option>
-            <ex-dropdown-option name="Other" value="5"></ex-dropdown-option>
+            <ex-dropdown-option value="BDS"></ex-dropdown-option>
+            <ex-dropdown-option value="Dignitas"></ex-dropdown-option>
+            <ex-dropdown-option value="Oxygen"></ex-dropdown-option>
+            <ex-dropdown-option value="NRG"></ex-dropdown-option>
+            <ex-dropdown-option value="SSG"></ex-dropdown-option>
+            <ex-dropdown-option value="Other"></ex-dropdown-option>
         </ex-dropdownbox>
-    </ex-dropdown> -->
-    <ex-dropdown id="rlcs-team-picker">
+    </ex-dropdown>
+    <ex-dropdown id="rlcs-team-picker2" reflectcontrol>
+        <ex-dropdown-textbox slot="control" label="Pick your team:"></ex-dropdown-textbox>
+        <ex-dropdownbox>
+            <ex-dropdown-option value="BDS"></ex-dropdown-option>
+            <ex-dropdown-option value="Dignitas"></ex-dropdown-option>
+            <ex-dropdown-option value="Oxygen"></ex-dropdown-option>
+            <ex-dropdown-option value="NRG"></ex-dropdown-option>
+            <ex-dropdown-option value="SSG"></ex-dropdown-option>
+            <ex-dropdown-option value="Other"></ex-dropdown-option>
+        </ex-dropdownbox>
+    </ex-dropdown>
+    <!-- <ex-dropdown id="rlcs-team-picker2">
         <input slot="control" id="rlcs-team-picker--control" />
         <ex-dropdownbox id="rlcs-team-picker--dropdownbox">
         </ex-dropdownbox>
-    </ex-dropdown>
+    </ex-dropdown> -->
     <script type="module" src="/dist/components/exhale.js"></script>
     <script>
         document
             .getElementById("rlcs-team-picker")
-            .addEventListener("change", event => console.log("Picked:", event.currentTarget.value));
+            .addEventListener("change", event => console.log("1 Picked:", event.currentTarget.value));
+        document
+            .getElementById("rlcs-team-picker2")
+            .addEventListener("change", event => console.log("2 Picked:", event.currentTarget.value));
 
-        const data = ["BDS", "Dignitas", "Oxygen", "NRG", "SSG"];
+        // const data = ["BDS", "Dignitas", "Oxygen", "NRG", "SSG"];
 
-        const dropdownbox = document.getElementById("rlcs-team-picker--dropdownbox");
+        // const dropdownbox = document.getElementById("rlcs-team-picker--dropdownbox");
 
-        const clearDropdownBox = () => {
-            while (dropdownbox.hasChildNodes()) {
-                dropdownbox.removeChild(dropdownbox.firstChild);
-            }
-        }
+        // const clearDropdownBox = () => {
+        //     while (dropdownbox.hasChildNodes()) {
+        //         dropdownbox.removeChild(dropdownbox.firstChild);
+        //     }
+        // }
 
-        const input = document.getElementById("rlcs-team-picker--control");
-        input.addEventListener("ex:dropdownregister", event => {
-            input.addEventListener("input", event => {
-                const liveData = data.filter(d => d.toLowerCase().includes(event.currentTarget.value.toLowerCase()));
-                clearDropdownBox();
-                if (liveData.length === 0) {
-                    const emptyMsg = document.createElement("p");
-                    emptyMsg.append(document.createTextNode("No Matches"));
-                    dropdownbox.append(emptyMsg);
-                } else {
-                    liveData.forEach(d => {
-                        const option = document.createElement("ex-dropdown-option");
-                        option.setAttribute("name", d);
-                        option.setAttribute("value", d.toUpperCase());
-                        dropdownbox.append(option);
-                    });
-                }
-                dropdownbox.toggleOpen();
-            });
-        });
+        // const input = document.getElementById("rlcs-team-picker--control");
+        // input.addEventListener("ex:dropdownregister", event => {
+        //     input.addEventListener("input", event => {
+        //         const liveData = data.filter(d => d.toLowerCase().includes(event.currentTarget.value.toLowerCase()));
+        //         clearDropdownBox();
+        //         if (liveData.length === 0) {
+        //             const emptyMsg = document.createElement("p");
+        //             emptyMsg.append(document.createTextNode("No Matches"));
+        //             dropdownbox.append(emptyMsg);
+        //         } else {
+        //             liveData.forEach(d => {
+        //                 const option = document.createElement("ex-dropdown-option");
+        //                 option.setAttribute("name", d);
+        //                 option.setAttribute("value", d.toUpperCase());
+        //                 dropdownbox.append(option);
+        //             });
+        //         }
+        //         dropdownbox.toggleOpen();
+        //     });
+        // });
 
-        input.addEventListener("ex:dropdownchange", event => {
-            input.value = event.detail.value;
-        })
+        // input.addEventListener("ex:dropdownchange", event => {
+        //     input.value = event.detail.value;
+        // })
 
     </script>
 </body>

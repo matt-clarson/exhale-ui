@@ -10,7 +10,6 @@ import {
 
 @customElement("ex-dropdown-option")
 export class DropdownOption extends LitElement {
-    @property() name?: string;
     @property() value?: string;
 
     static get styles(): CSSResult {
@@ -62,6 +61,6 @@ export class DropdownOption extends LitElement {
     }
 
     render(): TemplateResult {
-        return html`<div part="wrapper">${this.name}</div>`;
+        return html`<div part="wrapper">${this.value}</div>`;
     }
 }

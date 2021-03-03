@@ -7,12 +7,12 @@ import {
     property,
 } from "lit-element";
 import { DropdownBox } from "./dropdown-box";
-import { DropdownOption } from "./dropdown-option";
-import { dropdownChangeEvent, dropdownRegisterEvent } from "./events";
+import { DropdownChangeEvent, dropdownChangeEvent, dropdownRegisterEvent } from "./events";
 
 @customElement("ex-dropdown")
 export class Dropdown extends LitElement {
-    @property() public value = "";
+    @property({ type: Boolean }) public reflectControl = false;
+    @property() public value?: string;
     @queryAssignedNodes() private _dropdownbox?: Node[];
     private get dropdownbox(): DropdownBox | undefined {
         if (!this._dropdownbox === undefined || this._dropdownbox?.length === 0) return;
@@ -31,24 +31,34 @@ export class Dropdown extends LitElement {
         if (dropdownbox === undefined) return;
         this.control?.dispatchEvent(dropdownRegisterEvent(dropdownbox));
         this.control?.addEventListener("change", event => event.stopPropagation());
+        this.control?.addEventListener(
+            "ex:dropdownchange",
+            this.handleControlChange.bind(this) as EventListener
+        );
         dropdownbox.setAttribute("aria-labelledby", this.control?.id ?? "");
         dropdownbox.updateActiveDescendant(this.value);
-        dropdownbox.onChange(this.onOptionChange.bind(this));
+        dropdownbox.onChange(option => {
+            this.value = option.value;
+        });
         dropdownbox.addEventListener("keydown", event => {
             if (event.key === "Enter") {
                 dropdownbox.close();
             }
         });
         const activeDescendant = dropdownbox.getActiveDescendant();
-        if (activeDescendant?.name === undefined) return;
-        this.control?.dispatchEvent(dropdownChangeEvent(activeDescendant.name));
+        if (activeDescendant === undefined) return;
+        this.control?.dispatchEvent(dropdownChangeEvent(activeDescendant));
     }
 
-    private onOptionChange(option: DropdownOption): void {
-        if (option.name === undefined || option.value === undefined) return;
-        this.value = option.value;
-        this.dropdownbox?.updateActiveDescendant(option.value);
-        this.control?.dispatchEvent(dropdownChangeEvent(option.name));
+    private handleControlChange(event: DropdownChangeEvent): void {
+        if (!this.reflectControl) return;
+        this.value = event.detail.value;
+    }
+
+    updated(changed: Map<string, string>): void {
+        if (!changed.has("value")) return;
+        this.dropdownbox?.updateActiveDescendant(this.value);
+        this.control?.dispatchEvent(dropdownChangeEvent({ value: this.value }));
         this.dispatchEvent(new Event("change"));
     }
 

@@ -32,6 +32,10 @@ export class DropdownBox extends LitElement {
         this.isOpen = !this.isOpen;
     }
 
+    public open(): void {
+        this.isOpen = true;
+    }
+
     public close(): void {
         this.isOpen = false;
     }
@@ -40,7 +44,8 @@ export class DropdownBox extends LitElement {
         return this.options.find(option => option.hasAttribute("aria-selected"));
     }
 
-    public updateActiveDescendant(value: string): void {
+    public updateActiveDescendant(value?: string): void {
+        if (value === undefined) return;
         for (const option of this.options) {
             if (option.value === value) {
                 this.setAttribute("aria-activedescendant", option.id);
@@ -59,9 +64,7 @@ export class DropdownBox extends LitElement {
 
     private handleSlotChange(): void {
         this.options.forEach(option => {
-            console.log(option);
             option.addEventListener("click", () => {
-                console.log("clicked on:", option);
                 this.onChangeHandler?.(option);
             });
         });
