@@ -1,4 +1,12 @@
-import { customElement, html, LitElement, property, TemplateResult } from "lit-element";
+import {
+    css,
+    CSSResult,
+    customElement,
+    html,
+    LitElement,
+    property,
+    TemplateResult,
+} from "lit-element";
 import { ariaBoolConverter, assignAttributes } from "../internal/utils";
 import { OptionSelectEvent } from "./events";
 
@@ -51,8 +59,41 @@ export class Option extends LitElement {
         );
     }
 
+    static get styles(): CSSResult {
+        return css`
+            :host {
+                display: inline-block;
+                min-width: 12rem;
+            }
+            :host::part(wrapper) {
+                position: relative;
+                padding: 0.1rem 1rem;
+            }
+            :host[aria-disabled="true"]::part(wrapper) {
+                background-color: hsla(0, 0%, 0%, 0.2);
+                color: hsla(0, 0%, 25%, 1);
+            }
+            :host::part(wrapper)::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                right: 0;
+            }
+            :host:not([aria-disabled="true"]):hover::part(wrapper)::after {
+                background-color: hsla(0, 0%, 0%, 0.1);
+            }
+            :host:not([aria-disabled="true"]):focus::part(wrapper)::after {
+                background-color: hsla(0, 0%, 0%, 0.3);
+            }
+        `;
+    }
+
     render(): TemplateResult {
         console.log(this.value, this.selected ? "Selected" : "Not Selected");
-        return html`<div part="wrapper" role="presentation">${this.value ?? ""}</div>`;
+        return html`<div part="wrapper" role="presentation">
+            ${this.selected ? "✔️ " : ""}${this.value ?? ""}
+        </div>`;
     }
 }

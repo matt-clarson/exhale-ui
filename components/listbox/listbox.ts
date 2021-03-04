@@ -1,4 +1,6 @@
 import {
+    css,
+    CSSResult,
     customElement,
     html,
     LitElement,
@@ -110,6 +112,16 @@ export class Listbox extends LitElement {
                     forceAttribute(this, ["aria-activedescendant", target.id]);
             }) as EventListener);
         });
+    }
+
+    static get styles(): CSSResult {
+        return css`
+            :host {
+                display: block;
+                border: 1px solid black;
+                width: min-content;
+            }
+        `;
     }
 
     connectedCallback(): void {
