@@ -39,3 +39,8 @@ export function assignAttributes(el: HTMLElement): (...attrs: AttrDef[]) => void
 export function forceAttributes(el: HTMLElement): (...attrs: FAttrDef[]) => void {
     return (...attrs) => attrs.forEach(forceAttribute(el));
 }
+
+export const ariaBoolConverter = {
+    fromAttribute: (value?: string | null): boolean => value === "true",
+    toAttribute: (value?: boolean): string => (!!value).toString(),
+};

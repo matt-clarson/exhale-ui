@@ -11,54 +11,13 @@
 <body class="p-4">
     <label id="rlcs-picker__label">Pick Your Team</label>
     <ex-listbox aria-labelledby="rlcs-picker__label">
-        <ex-option value="BDS"></ex-option>
+        <ex-option value="BDS" aria-disabled="true"></ex-option>
         <ex-option value="Dignitas"></ex-option>
         <ex-option value="NRG"></ex-option>
         <ex-option value="Oxygen"></ex-option>
         <ex-option value="SSG"></ex-option>
     </ex-listbox>
     <script type="module" src="/dist/components/exhale.js"></script>
-    <script>
-        document
-            .getElementById("rlcs-team-picker")
-            .addEventListener("change", event => console.log("1 Picked:", event.currentTarget.value));
-
-        // const data = ["BDS", "Dignitas", "Oxygen", "NRG", "SSG"];
-
-        // const dropdownbox = document.getElementById("rlcs-team-picker--dropdownbox");
-
-        // const clearDropdownBox = () => {
-        //     while (dropdownbox.hasChildNodes()) {
-        //         dropdownbox.removeChild(dropdownbox.firstChild);
-        //     }
-        // }
-
-        // const input = document.getElementById("rlcs-team-picker--control");
-        // input.addEventListener("ex:dropdownregister", event => {
-        //     input.addEventListener("input", event => {
-        //         const liveData = data.filter(d => d.toLowerCase().includes(event.currentTarget.value.toLowerCase()));
-        //         clearDropdownBox();
-        //         if (liveData.length === 0) {
-        //             const emptyMsg = document.createElement("p");
-        //             emptyMsg.append(document.createTextNode("No Matches"));
-        //             dropdownbox.append(emptyMsg);
-        //         } else {
-        //             liveData.forEach(d => {
-        //                 const option = document.createElement("ex-dropdown-option");
-        //                 option.setAttribute("name", d);
-        //                 option.setAttribute("value", d.toUpperCase());
-        //                 dropdownbox.append(option);
-        //             });
-        //         }
-        //         dropdownbox.toggleOpen();
-        //     });
-        // });
-
-        // input.addEventListener("ex:dropdownchange", event => {
-        //     input.value = event.detail.value;
-        // })
-
-    </script>
 </body>
 
 </html>

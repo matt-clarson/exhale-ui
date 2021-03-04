@@ -6,8 +6,8 @@ import {
     queryAssignedNodes,
     TemplateResult,
 } from "lit-element";
-import { assignAttributes, forceAttribute } from "../internal/utils";
-import { EX_OPTION_FOCUSED } from "../shared/constants";
+import { assignAttributes } from "../internal/utils";
+import { optionSelectEvent } from "../shared";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
@@ -34,7 +34,6 @@ export class Listbox extends LitElement {
     }
 
     private handleKeyDown(event: KeyboardEvent): void {
-        console.log(event.key);
         if (!ALLOWED_KEYS.includes(event.key)) return;
 
         const options = this.options();
@@ -44,48 +43,68 @@ export class Listbox extends LitElement {
 
         if (!this.forceSelect && !this.multiSelect) {
             options.forEach((option, i) =>
-                forceAttribute(option, ["aria-selected", i === idx ? "true" : null])
+                option.dispatchEvent(optionSelectEvent({ selected: i === idx }))
             );
         } else if (this.forceSelect && this.multiSelect !== "true" && event.key === " ") {
             options.forEach((option, i) =>
-                forceAttribute(option, [
-                    "aria-selected",
-                    i === idx && option.getAttribute("aria-selected") !== "true" ? "true" : null,
-                ])
+                option.dispatchEvent(
+                    optionSelectEvent({
+                        selected: i === idx && option.getAttribute("aria-selected") !== "true",
+                    })
+                )
             );
         } else if (this.multiSelect === "true" && event.key === " ") {
             const option = options[idx];
-            forceAttribute(option, [
-                "aria-selected",
-                option.getAttribute("aria-selected") === "true" ? "false" : "true",
-            ]);
+            option.dispatchEvent(optionSelectEvent({ toggle: true }));
         }
     }
 
     private changeFocusedOption(options: HTMLElement[], key: string): number {
-        const focusedIdx = options.findIndex(o => o.classList.contains(EX_OPTION_FOCUSED));
+        const focusedIdx = options.findIndex(o => o === document.activeElement);
+        const isDisabled = (i: number) =>
+            options[i].getAttribute("aria-disabled") === "true" ||
+            options[i].hasAttribute("disabled");
         let nextIdx: number;
 
-        if (key === "ArrowDown" && focusedIdx < options.length - 1) nextIdx = focusedIdx + 1;
-        else if (key === "ArrowUp" && focusedIdx > 0) nextIdx = focusedIdx - 1;
-        else if (key === "Home") nextIdx = 0;
-        else if (key === "End") nextIdx = options.length - 1;
-        else nextIdx = focusedIdx;
+        if (key === "ArrowDown" && focusedIdx < options.length - 1) {
+            nextIdx = focusedIdx + 1;
+            while (nextIdx < options.length && isDisabled(nextIdx)) {
+                nextIdx += 1;
+            }
+        } else if (key === "ArrowUp" && focusedIdx > 0) {
+            nextIdx = focusedIdx - 1;
+            while (nextIdx > 0 && isDisabled(nextIdx)) {
+                nextIdx -= 1;
+            }
+        } else if (key === "Home") {
+            nextIdx = 0;
+            while (nextIdx < options.length && isDisabled(nextIdx)) {
+                nextIdx += 1;
+            }
+        } else if (key === "End") {
+            nextIdx = options.length - 1;
+            while (nextIdx > 0 && isDisabled(nextIdx)) {
+                nextIdx -= 1;
+            }
+        } else nextIdx = focusedIdx;
 
-        options[focusedIdx]?.classList.remove(EX_OPTION_FOCUSED);
-        options[nextIdx]?.classList.add(EX_OPTION_FOCUSED);
+        options[nextIdx]?.focus();
         return nextIdx;
     }
 
     private handleDefaultSlotChange(): void {
-        if (this.multiSelect === "true") {
-            this.options().forEach(option =>
-                forceAttribute(option, [
-                    "aria-selected",
-                    option.getAttribute("aria-selected") === "true" ? "true" : "false",
-                ])
-            );
-        }
+        const options = this.options();
+        options.forEach(option =>
+            option.addEventListener("click", () => {
+                if (this.multiSelect) {
+                    option.dispatchEvent(optionSelectEvent({ toggle: true }));
+                } else {
+                    options.forEach(o =>
+                        o.dispatchEvent(optionSelectEvent({ selected: o === option }))
+                    );
+                }
+            })
+        );
     }
 
     connectedCallback(): void {

@@ -1,4 +1,4 @@
 export type OptionSelect = {
-    selected: boolean;
-    multiSelect?: boolean;
+    selected?: boolean;
+    toggle?: boolean;
 };
