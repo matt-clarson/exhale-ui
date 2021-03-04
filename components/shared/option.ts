@@ -44,7 +44,11 @@ export class Option extends LitElement {
     connectedCallback(): void {
         super.connectedCallback();
         if (!this.isConnected) return;
-        assignAttributes(this)(["role", "option"], ["tabindex", "-1"]);
+        assignAttributes(this)(
+            ["role", "option"],
+            ["tabindex", "-1"],
+            ["id", `${Math.random().toString(16).slice(2)}-option`]
+        );
     }
 
     render(): TemplateResult {

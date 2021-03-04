@@ -6,8 +6,8 @@ import {
     queryAssignedNodes,
     TemplateResult,
 } from "lit-element";
-import { assignAttributes } from "../internal/utils";
-import { optionSelectEvent } from "../shared";
+import { ariaBoolConverter, assignAttributes, forceAttribute } from "../internal/utils";
+import { OptionSelectEvent, optionSelectEvent } from "../shared";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
@@ -19,8 +19,8 @@ export class Listbox extends LitElement {
     private defaultSlotted?: Node[];
     @property({ type: Boolean })
     public forceSelect = false;
-    @property({ attribute: "aria-multiselectable" })
-    public multiSelect?: string;
+    @property({ attribute: "aria-multiselectable", converter: ariaBoolConverter })
+    public multiSelect = false;
     @property({ attribute: "aria-readonly", type: Boolean })
     public readonly = false;
 
@@ -45,7 +45,7 @@ export class Listbox extends LitElement {
             options.forEach((option, i) =>
                 option.dispatchEvent(optionSelectEvent({ selected: i === idx }))
             );
-        } else if (this.forceSelect && this.multiSelect !== "true" && event.key === " ") {
+        } else if (this.forceSelect && !this.multiSelect && event.key === " ") {
             options.forEach((option, i) =>
                 option.dispatchEvent(
                     optionSelectEvent({
@@ -53,7 +53,7 @@ export class Listbox extends LitElement {
                     })
                 )
             );
-        } else if (this.multiSelect === "true" && event.key === " ") {
+        } else if (this.multiSelect && event.key === " ") {
             const option = options[idx];
             option.dispatchEvent(optionSelectEvent({ toggle: true }));
         }
@@ -94,7 +94,7 @@ export class Listbox extends LitElement {
 
     private handleDefaultSlotChange(): void {
         const options = this.options();
-        options.forEach(option =>
+        options.forEach(option => {
             option.addEventListener("click", () => {
                 if (this.multiSelect) {
                     option.dispatchEvent(optionSelectEvent({ toggle: true }));
@@ -103,8 +103,13 @@ export class Listbox extends LitElement {
                         o.dispatchEvent(optionSelectEvent({ selected: o === option }))
                     );
                 }
-            })
-        );
+            });
+            option.addEventListener("ex:optionselect", ((event: OptionSelectEvent) => {
+                const target = event.target as HTMLElement;
+                if (this.multiSelect || event.detail.selected)
+                    forceAttribute(this, ["aria-activedescendant", target.id]);
+            }) as EventListener);
+        });
     }
 
     connectedCallback(): void {
