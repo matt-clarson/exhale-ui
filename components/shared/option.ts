@@ -41,7 +41,6 @@ export class Option extends LitElement {
     }
 
     private handleSelectEvent(event: OptionSelectEvent): void {
-        console.log(event.detail);
         if (event.detail.toggle) {
             this.selected = !this.selected;
         } else {

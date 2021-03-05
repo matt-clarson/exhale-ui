@@ -5,9 +5,13 @@ export default {
     component: "ex-listbox",
 };
 
-const Listbox = ({ multiSelect, forceSelect }) =>
+const Listbox = ({ multiSelect, forceSelect, readonly }) =>
     html`
-        <ex-listbox aria-multiselectable=${multiSelect} ?forceselect=${forceSelect}>
+        <ex-listbox
+            ?aria-multiselectable=${multiSelect}
+            ?forceselect=${forceSelect}
+            ?aria-readonly=${readonly}
+        >
             <ex-option value="BDS"></ex-option>
             <ex-option value="Dignitas"></ex-option>
             <ex-option value="Oxygen"></ex-option>

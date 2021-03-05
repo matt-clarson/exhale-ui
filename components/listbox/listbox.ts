@@ -8,7 +8,7 @@ import {
     queryAssignedNodes,
     TemplateResult,
 } from "lit-element";
-import { ariaBoolConverter, assignAttributes, forceAttribute } from "../internal/utils";
+import { assignAttributes, forceAttribute } from "../internal/utils";
 import { OptionSelectEvent, optionSelectEvent } from "../shared";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
@@ -33,7 +33,7 @@ export class Listbox extends LitElement {
     /**
      * Sets whether the listbox is in single-select or multi-select mode.
      */
-    @property({ attribute: "aria-multiselectable", converter: ariaBoolConverter })
+    @property({ attribute: "aria-multiselectable", type: Boolean })
     public multiSelect = false;
     /**
      * Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.
@@ -43,6 +43,7 @@ export class Listbox extends LitElement {
 
     constructor() {
         super();
+
         this.addEventListener("keydown", this.handleKeyDown.bind(this));
     }
 
@@ -51,7 +52,7 @@ export class Listbox extends LitElement {
     }
 
     private handleKeyDown(event: KeyboardEvent): void {
-        if (!ALLOWED_KEYS.includes(event.key)) return;
+        if (!ALLOWED_KEYS.includes(event.key) || this.readonly) return;
 
         const options = this.options();
         const idx = this.changeFocusedOption(options, event.key);
@@ -113,7 +114,7 @@ export class Listbox extends LitElement {
         const options = this.options();
         options.forEach(option => {
             option.addEventListener("click", () => {
-                console.log("option clicked");
+                if (this.readonly) return;
                 if (this.multiSelect) {
                     option.dispatchEvent(optionSelectEvent({ toggle: true }));
                 } else {
