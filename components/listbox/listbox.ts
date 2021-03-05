@@ -14,7 +14,7 @@ import { OptionSelectEvent, optionSelectEvent } from "../shared";
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
 /**
- * An implementation of the listbox role - https://www.w3.org/TR/wai-aria-1.1/#listbox.
+ * An implementation of the "listbox" role - https://www.w3.org/TR/wai-aria-1.1/#listbox.
  *
  * @slot - Default slot should contain one or more {@link Option} elements.
  */
@@ -33,12 +33,12 @@ export class Listbox extends LitElement {
     /**
      * Sets whether the listbox is in single-select or multi-select mode.
      */
-    @property({ attribute: "aria-multiselectable", type: Boolean })
+    @property({ attribute: "aria-multiselectable", type: Boolean, reflect: true })
     public multiSelect = false;
     /**
      * Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.
      */
-    @property({ attribute: "aria-readonly", type: Boolean })
+    @property({ attribute: "aria-readonly", type: Boolean, reflect: true })
     public readonly = false;
 
     constructor() {
