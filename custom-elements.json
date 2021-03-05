@@ -2,118 +2,9 @@
   "version": "experimental",
   "tags": [
     {
-      "name": "ex-dropdownbox",
-      "path": "./components/dropdown/dropdown-box.ts",
-      "properties": [
-        {
-          "name": "styles",
-          "type": "Record<string, string>"
-        }
-      ]
-    },
-    {
-      "name": "ex-dropdownbutton",
-      "path": "./components/dropdown/dropdown-button.ts",
-      "attributes": [
-        {
-          "name": "placeholder",
-          "type": "string",
-          "default": "\"-- PICK FROM LIST --\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "placeholder",
-          "attribute": "placeholder",
-          "type": "string",
-          "default": "\"-- PICK FROM LIST --\""
-        }
-      ]
-    },
-    {
-      "name": "ex-dropdown-option",
-      "path": "./components/dropdown/dropdown-option.ts",
-      "attributes": [
-        {
-          "name": "value",
-          "type": "string | undefined"
-        }
-      ],
-      "properties": [
-        {
-          "name": "value",
-          "attribute": "value",
-          "type": "string | undefined"
-        }
-      ]
-    },
-    {
-      "name": "ex-dropdown-textbox",
-      "path": "./components/dropdown/dropdown-textbox.ts",
-      "attributes": [
-        {
-          "name": "placeholder",
-          "type": "string",
-          "default": "\"-- PICK FROM LIST --\""
-        },
-        {
-          "name": "label",
-          "type": "string",
-          "default": "\"Make Selection\""
-        }
-      ],
-      "properties": [
-        {
-          "name": "placeholder",
-          "attribute": "placeholder",
-          "type": "string",
-          "default": "\"-- PICK FROM LIST --\""
-        },
-        {
-          "name": "label",
-          "attribute": "label",
-          "type": "string",
-          "default": "\"Make Selection\""
-        }
-      ]
-    },
-    {
-      "name": "ex-dropdown",
-      "path": "./components/dropdown/dropdown.ts",
-      "attributes": [
-        {
-          "name": "reflectControl",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "value",
-          "type": "string | undefined"
-        }
-      ],
-      "properties": [
-        {
-          "name": "reflectControl",
-          "attribute": "reflectControl",
-          "type": "boolean",
-          "default": "false"
-        },
-        {
-          "name": "value",
-          "attribute": "value",
-          "type": "string | undefined"
-        }
-      ],
-      "events": [
-        {
-          "name": "change"
-        }
-      ]
-    },
-    {
       "name": "ex-listbox",
       "path": "./components/listbox/listbox.ts",
-      "description": "An implementation of the listbox role - https://www.w3.org/TR/wai-aria-1.1/#listbox.",
+      "description": "An implementation of the \"listbox\" role - https://www.w3.org/TR/wai-aria-1.1/#listbox.",
       "attributes": [
         {
           "name": "forceSelect",
@@ -167,18 +58,22 @@
     {
       "name": "ex-option",
       "path": "./components/shared/option.ts",
+      "description": "An implementation of the \"option\" role - https://www.w3.org/TR/2010/WD-wai-aria-20100916/roles#option.",
       "attributes": [
         {
           "name": "value",
+          "description": "The value of the option.",
           "type": "string | undefined"
         },
         {
           "name": "aria-selected",
+          "description": "Indicates the selected state of the option.",
           "type": "boolean",
           "default": "false"
         },
         {
           "name": "aria-disabled",
+          "description": "Sets the option as disabled. If `true`, the option will not respond to any events.",
           "type": "boolean",
           "default": "false"
         }
@@ -187,19 +82,28 @@
         {
           "name": "value",
           "attribute": "value",
+          "description": "The value of the option.",
           "type": "string | undefined"
         },
         {
           "name": "selected",
           "attribute": "aria-selected",
+          "description": "Indicates the selected state of the option.",
           "type": "boolean",
           "default": "false"
         },
         {
           "name": "disabled",
           "attribute": "aria-disabled",
+          "description": "Sets the option as disabled. If `true`, the option will not respond to any events.",
           "type": "boolean",
           "default": "false"
+        }
+      ],
+      "events": [
+        {
+          "name": "ex:optionselect",
+          "description": "When the `ex:optionselect` is dispatched against an option, the option will change its `selected` property (`aria-selected`) to reflect the detail of the event.\n                  Event detail should be:\n                  ```\n                  {\n                      selected?: boolean,\n                      toggle?: boolean,\n                  }\n                  ```"
         }
       ]
     }

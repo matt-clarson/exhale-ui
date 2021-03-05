@@ -10,19 +10,42 @@ import {
 import { ariaBoolConverter, assignAttributes } from "../internal/utils";
 import { OptionSelectEvent } from "./events";
 
+/**
+ * An implementation of the "option" role - https://www.w3.org/TR/2010/WD-wai-aria-20100916/roles#option.
+ *
+ * @fires ex:optionselect - When the `ex:optionselect` is dispatched against an option, the option will change its `selected` property (`aria-selected`) to reflect the detail of the event.
+ *                          Event detail should be:
+ *                          ```
+ *                          {
+ *                              selected?: boolean,
+ *                              toggle?: boolean,
+ *                          }
+ *                          ```
+ * @cssparts wrapper - A block wrapper around the value display.
+ */
 @customElement("ex-option")
 export class Option extends LitElement {
+    /**
+     * The value of the option.
+     */
     @property()
     public value?: string;
+    /**
+     * Indicates the selected state of the option.
+     */
     @property({ attribute: "aria-selected", converter: ariaBoolConverter, reflect: true })
     public selected = false;
-    @property({ attribute: "aria-disabled", converter: ariaBoolConverter, reflect: true })
+    /**
+     * Sets the option as disabled. If `true`, the option will not respond to any events.
+     */
+    @property({ attribute: "aria-disabled", type: Boolean, reflect: true })
     public disabled = false;
 
     constructor() {
         super();
 
         const stopOnDisabled = (event: Event) => {
+            console.log("Disabled", this.disabled);
             if (this.disabled) event.stopImmediatePropagation();
         };
         this.addEventListener("ex:optionselect", stopOnDisabled);
@@ -36,6 +59,9 @@ export class Option extends LitElement {
         this.addEventListener("blur", stopOnDisabled);
     }
 
+    /**
+     * @private
+     */
     public focus(): void {
         if (!this.disabled) super.focus();
     }
@@ -68,7 +94,7 @@ export class Option extends LitElement {
                 position: relative;
                 padding: 0.1rem 1rem;
             }
-            :host[aria-disabled="true"]::part(wrapper) {
+            :host[aria-disabled]::part(wrapper) {
                 background-color: hsla(0, 0%, 0%, 0.2);
                 color: hsla(0, 0%, 25%, 1);
             }
@@ -80,10 +106,10 @@ export class Option extends LitElement {
                 bottom: 0;
                 right: 0;
             }
-            :host:not([aria-disabled="true"]):hover::part(wrapper)::after {
+            :host:not([aria-disabled]):hover::part(wrapper)::after {
                 background-color: hsla(0, 0%, 0%, 0.1);
             }
-            :host:not([aria-disabled="true"]):focus::part(wrapper)::after {
+            :host:not([aria-disabled]):focus::part(wrapper)::after {
                 background-color: hsla(0, 0%, 0%, 0.3);
             }
         `;
