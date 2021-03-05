@@ -91,7 +91,6 @@ export class Option extends LitElement {
     }
 
     render(): TemplateResult {
-        console.log(this.value, this.selected ? "Selected" : "Not Selected");
         return html`<div part="wrapper" role="presentation">
             ${this.selected ? "✔️ " : ""}${this.value ?? ""}
         </div>`;

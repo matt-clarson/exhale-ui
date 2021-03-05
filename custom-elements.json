@@ -1,0 +1,207 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "ex-dropdownbox",
+      "path": "./components/dropdown/dropdown-box.ts",
+      "properties": [
+        {
+          "name": "styles",
+          "type": "Record<string, string>"
+        }
+      ]
+    },
+    {
+      "name": "ex-dropdownbutton",
+      "path": "./components/dropdown/dropdown-button.ts",
+      "attributes": [
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"-- PICK FROM LIST --\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "placeholder",
+          "attribute": "placeholder",
+          "type": "string",
+          "default": "\"-- PICK FROM LIST --\""
+        }
+      ]
+    },
+    {
+      "name": "ex-dropdown-option",
+      "path": "./components/dropdown/dropdown-option.ts",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string | undefined"
+        }
+      ]
+    },
+    {
+      "name": "ex-dropdown-textbox",
+      "path": "./components/dropdown/dropdown-textbox.ts",
+      "attributes": [
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"-- PICK FROM LIST --\""
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Make Selection\""
+        }
+      ],
+      "properties": [
+        {
+          "name": "placeholder",
+          "attribute": "placeholder",
+          "type": "string",
+          "default": "\"-- PICK FROM LIST --\""
+        },
+        {
+          "name": "label",
+          "attribute": "label",
+          "type": "string",
+          "default": "\"Make Selection\""
+        }
+      ]
+    },
+    {
+      "name": "ex-dropdown",
+      "path": "./components/dropdown/dropdown.ts",
+      "attributes": [
+        {
+          "name": "reflectControl",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "value",
+          "type": "string | undefined"
+        }
+      ],
+      "properties": [
+        {
+          "name": "reflectControl",
+          "attribute": "reflectControl",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "change"
+        }
+      ]
+    },
+    {
+      "name": "ex-listbox",
+      "path": "./components/listbox/listbox.ts",
+      "description": "An implementation of the listbox role - https://www.w3.org/TR/wai-aria-1.1/#listbox.",
+      "attributes": [
+        {
+          "name": "forceSelect",
+          "description": "Whether or not to force selection of options as a separate action.\nIf this is set, focusing on an option will not select it. You have to press \"Space\" to select the option.\nIf this is unset, focusing an option will select it.\nNote that this will be ignored if the `aria-multiselectable` attribute is set to `\"true\"`.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "aria-multiselectable",
+          "description": "Sets whether the listbox is in single-select or multi-select mode.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "aria-readonly",
+          "description": "Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "properties": [
+        {
+          "name": "forceSelect",
+          "attribute": "forceSelect",
+          "description": "Whether or not to force selection of options as a separate action.\nIf this is set, focusing on an option will not select it. You have to press \"Space\" to select the option.\nIf this is unset, focusing an option will select it.\nNote that this will be ignored if the `aria-multiselectable` attribute is set to `\"true\"`.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "multiSelect",
+          "attribute": "aria-multiselectable",
+          "description": "Sets whether the listbox is in single-select or multi-select mode.",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "readonly",
+          "attribute": "aria-readonly",
+          "description": "Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "slots": [
+        {
+          "name": "",
+          "description": "Default slot should contain one or more {@link Option} elements."
+        }
+      ]
+    },
+    {
+      "name": "ex-option",
+      "path": "./components/shared/option.ts",
+      "attributes": [
+        {
+          "name": "value",
+          "type": "string | undefined"
+        },
+        {
+          "name": "aria-selected",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "aria-disabled",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "properties": [
+        {
+          "name": "value",
+          "attribute": "value",
+          "type": "string | undefined"
+        },
+        {
+          "name": "selected",
+          "attribute": "aria-selected",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "disabled",
+          "attribute": "aria-disabled",
+          "type": "boolean",
+          "default": "false"
+        }
+      ]
+    }
+  ]
+}

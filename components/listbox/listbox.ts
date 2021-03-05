@@ -13,22 +13,37 @@ import { OptionSelectEvent, optionSelectEvent } from "../shared";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
+/**
+ * An implementation of the listbox role - https://www.w3.org/TR/wai-aria-1.1/#listbox.
+ *
+ * @slot - Default slot should contain one or more {@link Option} elements.
+ */
 @customElement("ex-listbox")
 export class Listbox extends LitElement {
-    @property()
-    public value?: string;
     @queryAssignedNodes()
     private defaultSlotted?: Node[];
+    /**
+     * Whether or not to force selection of options as a separate action.
+     * If this is set, focusing on an option will not select it. You have to press "Space" to select the option.
+     * If this is unset, focusing an option will select it.
+     * Note that this will be ignored if the `aria-multiselectable` attribute is set to `"true"`.
+     */
     @property({ type: Boolean })
     public forceSelect = false;
+    /**
+     * Sets whether the listbox is in single-select or multi-select mode.
+     */
     @property({ attribute: "aria-multiselectable", converter: ariaBoolConverter })
     public multiSelect = false;
+    /**
+     * Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.
+     */
     @property({ attribute: "aria-readonly", type: Boolean })
     public readonly = false;
 
     constructor() {
         super();
-        this.onkeydown = this.handleKeyDown.bind(this);
+        this.addEventListener("keydown", this.handleKeyDown.bind(this));
     }
 
     private options(): HTMLElement[] {
@@ -98,6 +113,7 @@ export class Listbox extends LitElement {
         const options = this.options();
         options.forEach(option => {
             option.addEventListener("click", () => {
+                console.log("option clicked");
                 if (this.multiSelect) {
                     option.dispatchEvent(optionSelectEvent({ toggle: true }));
                 } else {
