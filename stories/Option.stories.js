@@ -3,12 +3,16 @@ import { html } from "lit-html";
 export default {
     title: "Option",
     component: "ex-option",
+    argTypes: {
+        onChange: { action: "change" },
+        value: { type: "string" },
+    },
 };
 
-const Option = ({ value = "Some Value", selected, disabled }) => {
-    console.log("story value:", value);
+const Option = ({ value = "Some Value", selected, disabled, onChange }) => {
     return html`
         <ex-option
+            @change=${onChange}
             value=${value ?? ""}
             aria-selected=${!!selected}
             ?aria-disabled=${disabled}

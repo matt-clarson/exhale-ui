@@ -21,6 +21,8 @@ import { OptionSelectEvent } from "./events";
  *                              toggle?: boolean,
  *                          }
  *                          ```
+ * @fires change - When the `aria-selected` attribute changes, `Option` fires a `change` event.
+ *                 Note that this is fired _after_ the `ex:optionselect` is fired, and will not fire if the `Option` is disabled.
  * @cssparts wrapper - A block wrapper around the value display.
  */
 @customElement("ex-option")
@@ -82,6 +84,12 @@ export class Option extends LitElement {
             ["tabindex", "-1"],
             ["id", `${Math.random().toString(16).slice(2)}-option`]
         );
+    }
+
+    updated(changed: Map<string, string | boolean>): void {
+        if (changed.has("selected") && !this.disabled) {
+            this.dispatchEvent(new Event("change"));
+        }
     }
 
     static get styles(): CSSResult {

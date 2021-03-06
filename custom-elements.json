@@ -104,6 +104,10 @@
         {
           "name": "ex:optionselect",
           "description": "When the `ex:optionselect` is dispatched against an option, the option will change its `selected` property (`aria-selected`) to reflect the detail of the event.\n                  Event detail should be:\n                  ```\n                  {\n                      selected?: boolean,\n                      toggle?: boolean,\n                  }\n                  ```"
+        },
+        {
+          "name": "change",
+          "description": "When the `aria-selected` attribute changes, `Option` fires a `change` event.\n         Note that this is fired _after_ the `ex:optionselect` is fired, and will not fire if the `Option` is disabled."
         }
       ]
     }
