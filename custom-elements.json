@@ -7,6 +7,12 @@
       "description": "An implementation of the \"listbox\" role - https://www.w3.org/TR/wai-aria-1.1/#listbox.",
       "attributes": [
         {
+          "name": "delimiter",
+          "description": "The `delimiter` is used to delimit the `value` property.",
+          "type": "string",
+          "default": "\",\""
+        },
+        {
           "name": "forceSelect",
           "description": "Whether or not to force selection of options as a separate action.\nIf this is set, focusing on an option will not select it. You have to press \"Space\" to select the option.\nIf this is unset, focusing an option will select it.\nNote that this will be ignored if the `aria-multiselectable` attribute is set to `\"true\"`.",
           "type": "boolean",
@@ -27,6 +33,23 @@
       ],
       "properties": [
         {
+          "name": "delimiter",
+          "attribute": "delimiter",
+          "description": "The `delimiter` is used to delimit the `value` property.",
+          "type": "string",
+          "default": "\",\""
+        },
+        {
+          "name": "value",
+          "description": "The `value` of the `Listbox` is a delimited list of all the values of selected `Option`s (see the `delimiter` property).\nNote, you cannot set the `value` property manually.",
+          "type": "string"
+        },
+        {
+          "name": "values",
+          "description": "The `values` of the `Listbox` is all of the selected options as an array.",
+          "type": "string[]"
+        },
+        {
           "name": "forceSelect",
           "attribute": "forceSelect",
           "description": "Whether or not to force selection of options as a separate action.\nIf this is set, focusing on an option will not select it. You have to press \"Space\" to select the option.\nIf this is unset, focusing an option will select it.\nNote that this will be ignored if the `aria-multiselectable` attribute is set to `\"true\"`.",
@@ -46,6 +69,12 @@
           "description": "Sets the listbox to readonly mode - in readonly mode, the listbox will not allow selection of options.",
           "type": "boolean",
           "default": "false"
+        }
+      ],
+      "events": [
+        {
+          "name": "change",
+          "description": "Fires when any `Option` in the `Listbox` fires a `change` event.\n         Note that this event is a separate event to that fired by the `Option`s."
         }
       ],
       "slots": [

@@ -17,11 +17,35 @@ const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
  * An implementation of the "listbox" role - https://www.w3.org/TR/wai-aria-1.1/#listbox.
  *
  * @slot - Default slot should contain one or more {@link Option} elements.
+ * @fires change - Fires when any `Option` in the `Listbox` fires a `change` event.
+ *                 Note that this event is a separate event to that fired by the `Option`s.
  */
 @customElement("ex-listbox")
 export class Listbox extends LitElement {
     @queryAssignedNodes()
     private defaultSlotted?: Node[];
+    /**
+     * The `delimiter` is used to delimit the `value` property.
+     */
+    @property()
+    public delimiter = ",";
+    /**
+     * The `value` of the `Listbox` is a delimited list of all the values of selected `Option`s (see the `delimiter` property).
+     * Note, you cannot set the `value` property manually.
+     */
+    public get value(): string {
+        return this.values.join(this.delimiter);
+    }
+
+    /**
+     * The `values` of the `Listbox` is all of the selected options as an array.
+     */
+    public get values(): string[] {
+        return this.options()
+            .filter(o => !o.hasAttribute("aria-disabled") || o.getAttribute("value") !== null)
+            .map(o => o.getAttribute("value") as string);
+    }
+
     /**
      * Whether or not to force selection of options as a separate action.
      * If this is set, focusing on an option will not select it. You have to press "Space" to select the option.
@@ -128,6 +152,10 @@ export class Listbox extends LitElement {
                 if (this.multiSelect || event.detail.selected)
                     forceAttribute(this, ["aria-activedescendant", target.id]);
             }) as EventListener);
+
+            option.addEventListener("change", () => {
+                this.dispatchEvent(new Event("change"));
+            });
         });
     }
 
