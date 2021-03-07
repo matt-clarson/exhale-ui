@@ -8,21 +8,11 @@ import {
     TemplateResult,
 } from "lit-element";
 import { ariaBoolConverter, assignAttributes } from "../internal/utils";
-import { OptionSelectEvent } from "./events";
 
-/**
+/*
  * An implementation of the "option" role - https://www.w3.org/TR/2010/WD-wai-aria-20100916/roles#option.
  *
- * @fires ex:optionselect - When the `ex:optionselect` is dispatched against an option, the option will change its `selected` property (`aria-selected`) to reflect the detail of the event.
- *                          Event detail should be:
- *                          ```
- *                          {
- *                              selected?: boolean,
- *                              toggle?: boolean,
- *                          }
- *                          ```
  * @fires change - When the `aria-selected` attribute changes, `Option` fires a `change` event.
- *                 Note that this is fired _after_ the `ex:optionselect` is fired, and will not fire if the `Option` is disabled.
  * @cssparts wrapper - A block wrapper around the value display.
  */
 @customElement("ex-option")
@@ -32,11 +22,25 @@ export class Option extends LitElement {
      */
     @property()
     public value?: string;
+
+    private _selected = false;
     /**
      * Indicates the selected state of the option.
+     * @default false
      */
     @property({ attribute: "aria-selected", converter: ariaBoolConverter, reflect: true })
-    public selected = false;
+    public get selected(): boolean {
+        return this._selected;
+    }
+
+    public set selected(value: boolean) {
+        console.log("setter called on", this.value, "with", value);
+        if (!this.disabled) {
+            const oldValue = this._selected;
+            this._selected = value;
+            this.requestUpdate("selected", oldValue);
+        }
+    }
     /**
      * Sets the option as disabled. If `true`, the option will not respond to any events.
      */
@@ -50,12 +54,6 @@ export class Option extends LitElement {
             console.log("Disabled", this.disabled);
             if (this.disabled) event.stopImmediatePropagation();
         };
-        this.addEventListener("ex:optionselect", stopOnDisabled);
-        this.addEventListener(
-            "ex:optionselect",
-            this.handleSelectEvent.bind(this) as EventListener
-        );
-
         this.addEventListener("click", stopOnDisabled);
         this.addEventListener("focus", stopOnDisabled);
         this.addEventListener("blur", stopOnDisabled);
@@ -66,14 +64,6 @@ export class Option extends LitElement {
      */
     public focus(): void {
         if (!this.disabled) super.focus();
-    }
-
-    private handleSelectEvent(event: OptionSelectEvent): void {
-        if (event.detail.toggle) {
-            this.selected = !this.selected;
-        } else {
-            this.selected = !!event.detail.selected;
-        }
     }
 
     connectedCallback(): void {
@@ -120,12 +110,13 @@ export class Option extends LitElement {
             :host:not([aria-disabled]):focus::part(wrapper)::after {
                 background-color: hsla(0, 0%, 0%, 0.3);
             }
+            :host[aria-selected="true"]::part(wrapper)::before {
+                content: "️️️️️️✔️ ";
+            }
         `;
     }
 
     render(): TemplateResult {
-        return html`<div part="wrapper" role="presentation">
-            ${this.selected ? "✔️ " : ""}${this.value ?? ""}
-        </div>`;
+        return html`<div part="wrapper" role="presentation">${this.value ?? ""}</div>`;
     }
 }

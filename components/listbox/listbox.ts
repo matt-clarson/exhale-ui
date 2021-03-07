@@ -9,7 +9,6 @@ import {
     TemplateResult,
 } from "lit-element";
 import { assignAttributes, forceAttribute } from "../internal/utils";
-import { OptionSelectEvent, optionSelectEvent } from "../shared";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
@@ -18,7 +17,7 @@ const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
  *
  * @slot - Default slot should contain one or more {@link Option} elements.
  * @fires change - Fires when any `Option` in the `Listbox` fires a `change` event.
- *                 Note that this event is a separate event to that fired by the `Option`s.
+ *                 Note that this event is the same event as that fired by the `Option`s.
  */
 @customElement("ex-listbox")
 export class Listbox extends LitElement {
@@ -85,27 +84,28 @@ export class Listbox extends LitElement {
 
         if (!this.forceSelect && !this.multiSelect) {
             options.forEach((option, i) =>
-                option.dispatchEvent(optionSelectEvent({ selected: i === idx }))
+                option.setAttribute("aria-selected", i === idx ? "true" : "false")
             );
         } else if (this.forceSelect && !this.multiSelect && event.key === " ") {
             options.forEach((option, i) =>
-                option.dispatchEvent(
-                    optionSelectEvent({
-                        selected: i === idx && option.getAttribute("aria-selected") !== "true",
-                    })
+                option.setAttribute(
+                    "aria-selected",
+                    i === idx && option.getAttribute("aria-selected") !== "true" ? "true" : "false"
                 )
             );
         } else if (this.multiSelect && event.key === " ") {
             const option = options[idx];
-            option.dispatchEvent(optionSelectEvent({ toggle: true }));
+            option.setAttribute(
+                "aria-selected",
+                option.getAttribute("aria-selected") !== "true" ? "true" : "false"
+            );
         }
     }
 
     private changeFocusedOption(options: HTMLElement[], key: string): number {
         const focusedIdx = options.findIndex(o => o === document.activeElement);
         const isDisabled = (i: number) =>
-            options[i].getAttribute("aria-disabled") === "true" ||
-            options[i].hasAttribute("disabled");
+            options[i].hasAttribute("aria-disabled") || options[i].hasAttribute("disabled");
         let nextIdx: number;
 
         if (key === "ArrowDown" && focusedIdx < options.length - 1) {
@@ -140,21 +140,21 @@ export class Listbox extends LitElement {
             option.addEventListener("click", () => {
                 if (this.readonly) return;
                 if (this.multiSelect) {
-                    option.dispatchEvent(optionSelectEvent({ toggle: true }));
+                    option.setAttribute(
+                        "aria-selected",
+                        option.getAttribute("aria-selected") !== "true" ? "true" : "false"
+                    );
                 } else {
                     options.forEach(o =>
-                        o.dispatchEvent(optionSelectEvent({ selected: o === option }))
+                        o.setAttribute("aria-selected", o === option ? "true" : "false")
                     );
                 }
             });
-            option.addEventListener("ex:optionselect", ((event: OptionSelectEvent) => {
-                const target = event.target as HTMLElement;
-                if (this.multiSelect || event.detail.selected)
-                    forceAttribute(this, ["aria-activedescendant", target.id]);
-            }) as EventListener);
 
-            option.addEventListener("change", () => {
-                this.dispatchEvent(new Event("change"));
+            option.addEventListener("change", event => {
+                const target = event.target as HTMLElement;
+                if (this.multiSelect || target.getAttribute("aria-selected") === "true")
+                    forceAttribute(this, ["aria-activedescendant", target.id]);
             });
         });
     }

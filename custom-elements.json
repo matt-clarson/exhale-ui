@@ -74,7 +74,7 @@
       "events": [
         {
           "name": "change",
-          "description": "Fires when any `Option` in the `Listbox` fires a `change` event.\n         Note that this event is a separate event to that fired by the `Option`s."
+          "description": "Fires when any `Option` in the `Listbox` fires a `change` event.\n         Note that this event is the same event as that fired by the `Option`s."
         }
       ],
       "slots": [
@@ -87,7 +87,7 @@
     {
       "name": "ex-option",
       "path": "./components/shared/option.ts",
-      "description": "An implementation of the \"option\" role - https://www.w3.org/TR/2010/WD-wai-aria-20100916/roles#option.",
+      "description": "An implementation of the \"option\" role - https://www.w3.org/TR/2010/WD-wai-aria-20100916/roles#option.\n",
       "attributes": [
         {
           "name": "value",
@@ -98,7 +98,7 @@
           "name": "aria-selected",
           "description": "Indicates the selected state of the option.",
           "type": "boolean",
-          "default": "false"
+          "default": "\"false\""
         },
         {
           "name": "aria-disabled",
@@ -119,7 +119,7 @@
           "attribute": "aria-selected",
           "description": "Indicates the selected state of the option.",
           "type": "boolean",
-          "default": "false"
+          "default": "\"false\""
         },
         {
           "name": "disabled",
@@ -131,12 +131,7 @@
       ],
       "events": [
         {
-          "name": "ex:optionselect",
-          "description": "When the `ex:optionselect` is dispatched against an option, the option will change its `selected` property (`aria-selected`) to reflect the detail of the event.\n                  Event detail should be:\n                  ```\n                  {\n                      selected?: boolean,\n                      toggle?: boolean,\n                  }\n                  ```"
-        },
-        {
-          "name": "change",
-          "description": "When the `aria-selected` attribute changes, `Option` fires a `change` event.\n         Note that this is fired _after_ the `ex:optionselect` is fired, and will not fire if the `Option` is disabled."
+          "name": "change"
         }
       ]
     }
