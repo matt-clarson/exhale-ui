@@ -8,7 +8,7 @@ import {
     queryAssignedNodes,
     TemplateResult,
 } from "lit-element";
-import { assignAttributes, forceAttribute } from "../internal/utils";
+import { assignAttributes, forceAttribute } from "./internal/utils";
 
 const ALLOWED_KEYS = ["ArrowUp", "ArrowDown", "Home", "End", " "];
 
